@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_ATLAS_PWD": "ramprit123456",
+    "JWT_KEY": "$2b$10$4eYrC9tfsnxnhc0gn5jOa7TqBFa9n4c5CpaqR7te1H1ye2"
+  }
+}
