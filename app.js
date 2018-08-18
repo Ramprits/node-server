@@ -25,6 +25,7 @@ mongoose
   });
 
 const authsRouter = require('./routes/authRouter');
+const postsRouter = require('./routes/postRouter');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/users', authsRouter);
+app.use('/api/posts', postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
