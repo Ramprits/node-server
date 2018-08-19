@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start:server": "DEBUG=express* node  ./bin/www"
+    "start:server": "DEBUG=express* nodemon  ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

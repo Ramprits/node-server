@@ -1,7 +1,8 @@
 module.exports = {
   url: 'mongodb://localhost:27017/Adventure',
-  proUrl: 'mongodb://ramprit:ramprit123456@ds133601.mlab.com:33601/dhanifruits',
-  jwtTken:"myjwttokenhere"
+  proUrl:
+    'mongodb://ramprit:ramprit@123456@ds227332.mlab.com:27332/rampritsahaniblog',
+  jwtTken: 'myjwttokenhere'
 };
 
 // document
