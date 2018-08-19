@@ -26,6 +26,7 @@ mongoose
 
 const authsRouter = require('./routes/authRouter');
 const postsRouter = require('./routes/postRouter');
+const menusRouter = require('./routes/navRouter');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,6 +56,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/users', authsRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/menus', menusRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
