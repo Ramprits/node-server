@@ -62,7 +62,7 @@ module.exports = {
       User.create(body)
         .then(user => {
           const token = jwt.sign({ data: user }, secrettoken.jwtTken, {
-            expiresIn: 120
+            expiresIn: '5h'
           });
           res.status(HttpStatus.CREATED).json({
             message: 'User created sucessfully',
@@ -73,7 +73,7 @@ module.exports = {
         .catch(error => {
           res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: 'Error ocured!' });
+            .json({ message: 'Error ocured!:' + error.message });
         });
     });
   },
@@ -104,13 +104,13 @@ module.exports = {
           res.cookie('auth', token);
           return res
             .status(HttpStatus.OK)
-            .json({ message: 'Login successful', user, token });
+            .json({ message: 'Login successfully', user, token });
         });
       })
       .catch(err => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Error occured' });
+          .json({ message: 'Error occured:' + err.message });
       });
   }
 };
