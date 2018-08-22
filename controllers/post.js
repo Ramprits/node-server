@@ -7,11 +7,16 @@ const secrettoken = require('../middleware/db');
 
 module.exports = {
   addPost(req, res) {
+    const schema = Joi.object().keys({
+      username: Joi.string().required()
+    });
+   
     const body = {
-      post: req.body.post
+      user: req.user._id,
+      post: req.body.post,
+      username: req.user.username,
+      created: new Date()
     };
-
-    console.log(body);
 
     Post.create(body)
       .then(post => {
