@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 // @ts-ignore
 const authUserSchema = mongoose.Schema({
@@ -9,8 +8,14 @@ const authUserSchema = mongoose.Schema({
     required: true,
     unique: true
   },
-  password: String
+  password: String,
+  posts: [
+    {
+      postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+      post: { type: String },
+      createdAt: { type: Date, default: Date.now() }
+    }
+  ]
 });
 
-authUserSchema.plugin(uniqueValidator);
 module.exports = mongoose.model('User', authUserSchema);

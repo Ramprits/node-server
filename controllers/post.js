@@ -1,16 +1,14 @@
 const Joi = require('joi');
 const HttpStatus = require('http-status-codes');
 const Post = require('../models/postModel');
-const helper = require('../helper/helper');
-const bcrypt = require('bcryptjs');
-const secrettoken = require('../middleware/db');
+const User = require('../models/userModel');
 
 module.exports = {
   addPost(req, res) {
     const schema = Joi.object().keys({
       username: Joi.string().required()
     });
-   
+
     const body = {
       user: req.user._id,
       post: req.body.post,
@@ -19,7 +17,21 @@ module.exports = {
     };
 
     Post.create(body)
-      .then(post => {
+      .then(async post => {
+        await User.update(
+          {
+            _id: req.user._id
+          },
+          {
+            $push: {
+              posts: {
+                postId: post._id,
+                post: req.body.post,
+                createdAt: new Date()
+              }
+            }
+          }
+        );
         res.status(HttpStatus.CREATED).json({ message: 'Create sucessfully' });
       })
       .catch(error => {
