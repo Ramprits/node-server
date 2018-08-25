@@ -37,5 +37,20 @@ module.exports = {
       .catch(error => {
         console.log(error);
       });
+  },
+  async getAllPosts(req, res) {
+    try {
+      const posts = await Post.find({})
+        .populate('user')
+        .sort({ created: -1 });
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Post retrived sucessfully', posts })
+        .catch(error => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 };
