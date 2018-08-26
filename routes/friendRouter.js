@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Usercontroller = require('../controllers/user');
+const friendCtrl = require('../controllers/friends');
 const AuthHelper = require('../helper/AuthHelper');
 
-router.get('', AuthHelper.VerifyToken, Usercontroller.getUsers);
+router.post('', AuthHelper.VerifyToken, friendCtrl.getFriends);
 
 module.exports = router;

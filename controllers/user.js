@@ -2,13 +2,13 @@ const HttpStatus = require('http-status-codes');
 const User = require('../models/userModel');
 
 module.exports = {
-  getUsers(res) {
+  getUsers(req, res) {
     User.find({})
       .populate('posts.postId')
-      .then(response => {
+      .then(users => {
         res.status(HttpStatus.OK).json({
           message: 'user fetched sucessfully!',
-          response
+          users
         });
       })
       .catch(err => {

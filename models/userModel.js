@@ -15,6 +15,12 @@ const authUserSchema = mongoose.Schema({
       post: { type: String },
       createdAt: { type: Date, default: Date.now() }
     }
+  ],
+  following: [
+    { userFollowed: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } }
+  ],
+  followers: [
+    { follower: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } }
   ]
 });
 

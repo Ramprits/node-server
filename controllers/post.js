@@ -40,9 +40,7 @@ module.exports = {
   },
   async getAllPosts(req, res) {
     try {
-      const posts = await Post.find({})
-        .populate('user')
-        .sort({ created: -1 });
+      const posts = await Post.find({}).populate('user');
       return res
         .status(HttpStatus.OK)
         .json({ message: 'Post retrived sucessfully', posts })

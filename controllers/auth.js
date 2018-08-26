@@ -5,7 +5,7 @@ const helper = require('../helper/helper');
 const bcrypt = require('bcryptjs');
 const secrettoken = require('../middleware/db');
 const jwt = require('jsonwebtoken');
-
+const Msg = require('../middleware/message');
 module.exports = {
   async createUser(req, res) {
     const schema = Joi.object().keys({
@@ -35,22 +35,20 @@ module.exports = {
     });
 
     if (useemail) {
-      return res
-        .status(HttpStatus.CONFLICT)
-        .json({ message: 'Email address already exists!' });
+      return res.status(HttpStatus.CONFLICT).json({ message: Msg.EMAILEXIST });
     }
 
     if (username) {
       return res
         .status(HttpStatus.CONFLICT)
-        .json({ message: 'user name already exists!' });
+        .json({ message: Msg.USERALREADEXIST });
     }
 
     return bcrypt.hash(value.password, 10, function(err, hash) {
       if (err) {
         return res
           .status(HttpStatus.BAD_REQUEST)
-          .json({ message: 'Error hashing password' });
+          .json({ message: Msg.ERRORHASHINGPWD });
       }
 
       const body = {
@@ -65,7 +63,7 @@ module.exports = {
             expiresIn: '5h'
           });
           res.status(HttpStatus.CREATED).json({
-            message: 'User created sucessfully',
+            message: Msg.OK,
             user,
             token
           });
@@ -73,7 +71,7 @@ module.exports = {
         .catch(error => {
           res
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json({ message: 'Error ocured!:' + error.message });
+            .json({ message: Msg.INTERNALSERVERERROR + error.message });
         });
     });
   },
@@ -82,7 +80,7 @@ module.exports = {
     if (!req.body.username || !req.body.password) {
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: 'No empty fields allowed' });
+        .json({ message: Msg.NOEMPTY });
     }
 
     await User.findOne({ username: helper.firstUpper(req.body.username) })
@@ -90,13 +88,13 @@ module.exports = {
         if (!user) {
           return res
             .status(HttpStatus.NOT_FOUND)
-            .json({ message: 'Username not fount!' });
+            .json({ message: Msg.USERNOFOUND });
         }
         return bcrypt.compare(req.body.password, user.password).then(result => {
           if (!result) {
             return res
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
-              .json({ message: 'Password is incorrect' });
+              .json({ message: Msg.PWDINCORRECT });
           }
           const token = jwt.sign({ data: user }, secrettoken.jwtTken, {
             expiresIn: '5h'
@@ -104,13 +102,13 @@ module.exports = {
           res.cookie('auth', token);
           return res
             .status(HttpStatus.OK)
-            .json({ message: 'Login successfully', user, token });
+            .json({ message: Msg.OK, user, token });
         });
       })
       .catch(err => {
         return res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Error occured:' + err.message });
+          .json({ message: Msg.INTERNALSERVERERROR + err.message });
       });
   }
 };
