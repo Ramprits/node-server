@@ -1,9 +1,5 @@
-const Joi = require('joi');
 const HttpStatus = require('http-status-codes');
 const Product = require('../models/postModel');
-const helper = require('../helper/helper');
-const bcrypt = require('bcryptjs');
-const secrettoken = require('../middleware/db');
 
 module.exports = {
   async addproduct(req, res) {
@@ -14,15 +10,15 @@ module.exports = {
       image: req.body.image
     };
     await Product.create(body)
-      .then(post => {
-        res.status(HttpStatus.CREATED).json({ message: 'Create sucessfully' });
-      })
+      .then(() => {
+          res.status( HttpStatus.CREATED ).json( { message: 'Create sucessfully' } );
+        })
       .catch(error => {
         console.log(error);
       });
   },
 
-  async getAllProducts(req, res, next) {
+  async getAllProducts(res) {
     await Product.find()
       .then(response => {
         res.status(HttpStatus.OK).json({

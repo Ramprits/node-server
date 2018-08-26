@@ -1,9 +1,5 @@
-const Joi = require('joi');
 const HttpStatus = require('http-status-codes');
 const NAV = require('../models/navModel');
-const helper = require('../helper/helper');
-const bcrypt = require('bcryptjs');
-const secrettoken = require('../middleware/db');
 
 module.exports = {
   addnavigation(req, res) {
@@ -14,15 +10,15 @@ module.exports = {
       icon: req.body.icon
     };
     NAV.create(body)
-      .then(post => {
-        res.status(HttpStatus.CREATED).json({ message: 'Create sucessfully' });
-      })
+      .then(() => {
+          res.status( HttpStatus.CREATED ).json( { message: 'Create sucessfully' } );
+        })
       .catch(error => {
         console.log(error);
       });
   },
 
-  getAllMenus(req, res, next) {
+  getAllMenus(res) {
     NAV.find()
       .then(response => {
         res.status(HttpStatus.OK).json({

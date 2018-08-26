@@ -11,7 +11,6 @@ const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 
-
 mongoose.Promise = global.Promise;
 mongoose
   .connect(
@@ -29,6 +28,7 @@ const authsRouter = require('./routes/authRouter');
 const postsRouter = require('./routes/postRouter');
 const menusRouter = require('./routes/navRouter');
 const productsRouter = require('./routes/productRouter');
+const usersRouter = require('./routes/userRouter');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,6 +60,7 @@ app.use('/api/users', authsRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/menus', menusRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/getUsers', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
