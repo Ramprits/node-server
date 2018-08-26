@@ -52,5 +52,75 @@ module.exports = {
     } catch (error) {
       console.log(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  },
+
+  async getPost(req, res) {
+    await Post.findOne({ _id: req.params.id })
+      .populate('user')
+      .populate('comments.userid')
+      .then(post => {
+        res.status(HttpStatus.OK).json({
+          message: 'Post found',
+          post
+        });
+      })
+      .catch(error => {
+        res.status(HttpStatus.NOT_FOUND).json({
+          message: 'error occured!'
+        });
+      });
+  },
+  async addLikes(req, res) {
+    const postId = req.body._id;
+
+    await Post.update(
+      {
+        _id: postId,
+        'likes.username': { $ne: req.user.username }
+      },
+      {
+        $push: { likes: { username: req.user.username } },
+        $inc: { totalLikes: 1 }
+      }
+    )
+      .then(() => {
+        res.status(HttpStatus.OK).json({
+          message: 'Like added'
+        });
+      })
+      .catch(error => {
+        res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'unable add like' });
+      });
+  },
+  async addComment(req, res) {
+    const postId = req.body.postId;
+
+    await Post.update(
+      {
+        _id: postId
+      },
+      {
+        $push: {
+          comments: {
+            userId: req.user._id,
+            username: req.user.username,
+            comment: req.body.comment,
+            createdAt: new Date()
+          }
+        }
+      }
+    )
+      .then(() => {
+        res.status(HttpStatus.OK).json({
+          message: 'comment added'
+        });
+      })
+      .catch(error => {
+        res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'unable add comment' });
+      });
   }
 };
