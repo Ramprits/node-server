@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
 mongoose.Promise = global.Promise;
 mongoose
   .connect(
-    dbUrl.proUrl,
+    dbUrl.url,
     { useNewUrlParser: true }
   )
   .then(() => {

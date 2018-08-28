@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const Product = require('../models/postModel');
-
+const msg = require('../middleware/message')
 module.exports = {
   async addproduct(req, res) {
     const body = {
@@ -11,7 +11,7 @@ module.exports = {
     };
     await Product.create(body)
       .then(() => {
-          res.status( HttpStatus.CREATED ).json( { message: 'Create sucessfully' } );
+          res.status( HttpStatus.CREATED ).json( { message: msg.CREATED } );
         })
       .catch(error => {
         console.log(error);
@@ -22,7 +22,7 @@ module.exports = {
     await Product.find()
       .then(response => {
         res.status(HttpStatus.OK).json({
-          message: 'sucessfully',
+          message:msg.OK,
           response
         });
       })
