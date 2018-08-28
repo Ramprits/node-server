@@ -7,4 +7,4 @@ module.exports = {
 
 // document
 // sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
-//sudo kill `sudo lsof -t -i:4200`
+//sudo kill `sudo lsof -t -i:5000`
