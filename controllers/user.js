@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status-codes');
 const User = require('../models/userModel');
-const msg = require('../middleware/message')
+const msg = require('../middleware/message');
 module.exports = {
   getUsers(req, res) {
     User.find({})
@@ -9,7 +9,7 @@ module.exports = {
       .populate('followers.follower')
       .then(users => {
         res.status(HttpStatus.OK).json({
-          message: 'user fetched sucessfully!',
+          message: msg.OK,
           users
         });
       })
@@ -24,7 +24,7 @@ module.exports = {
       .populate('followers.follower')
       .then(users => {
         res.status(HttpStatus.OK).json({
-          message: 'user fetched sucessfully!',
+          message: msg.OK,
           users
         });
       })
@@ -39,7 +39,7 @@ module.exports = {
       .populate('followers.follower')
       .then(users => {
         res.status(HttpStatus.OK).json({
-          message:msg.OK,
+          message: msg.OK,
           users
         });
       })
