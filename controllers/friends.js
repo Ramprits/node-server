@@ -1,8 +1,9 @@
 const HttpStatus = require('http-status-codes');
 const User = require('../models/userModel');
 const Msg = require('../middleware/message');
+
 module.exports = {
-  getFriends(req, res) {
+  FollowUser(req, res) {
     const followUser = async () => {
       await User.update(
         {
@@ -17,6 +18,7 @@ module.exports = {
           }
         }
       );
+
       await User.update(
         {
           _id: req.body.userFollowed,
@@ -25,20 +27,27 @@ module.exports = {
         {
           $push: {
             followers: {
-              userFollowed: req.body._id
+              follower: req.user._id
+            },
+            notifications: {
+              senderId: req.user._id,
+              message: `${req.user.username} is now following you.`,
+              created: new Date(),
+              viewProfile: false
             }
           }
         }
       );
     };
+
     followUser()
       .then(() => {
-        res.status(HttpStatus.OK).json({ message: Msg.OK });
+        res.status(HttpStatus.OK).json({ message: 'Following user now' });
       })
-      .catch(() => {
+      .catch(err => {
         res
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .json({ message: Msg.INTERNALSERVERERROR });
+          .json({ message: 'Error occured' });
       });
   }
 };

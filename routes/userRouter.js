@@ -4,7 +4,7 @@ const Usercontroller = require('../controllers/user');
 const AuthHelper = require('../helper/AuthHelper');
 
 router.get('', AuthHelper.VerifyToken, Usercontroller.getUsers);
-router.get(':id', AuthHelper.VerifyToken, Usercontroller.getUser);
+router.get('/:id', AuthHelper.VerifyToken, Usercontroller.getUser);
 router.get(
   ':getUserByName',
   AuthHelper.VerifyToken,

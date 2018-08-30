@@ -22,10 +22,10 @@ module.exports = {
       .populate('posts.postId')
       .populate('following.userFollowed')
       .populate('followers.follower')
-      .then(users => {
+      .then(result => {
         res.status(HttpStatus.OK).json({
           message: msg.OK,
-          users
+          result
         });
       })
       .catch(err => {
