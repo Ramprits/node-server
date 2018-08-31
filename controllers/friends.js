@@ -28,6 +28,46 @@ module.exports = {
           $push: {
             followers: {
               follower: req.user._id
+            }
+          }
+        }
+      );
+    };
+
+    followUser()
+      .then(() => {
+        res.status(HttpStatus.OK).json({ message: 'Following user now' });
+      })
+      .catch(err => {
+        res
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Error occured' });
+      });
+  },
+
+  UnFollowUser(req, res) {
+    const unFollowUser = async () => {
+      await User.update(
+        {
+          _id: req.user._id
+        },
+        {
+          $pull: {
+            following: {
+              userFollowed: req.body.userFollowed
+            }
+          }
+        }
+      );
+
+      await User.update(
+        {
+          _id: req.body.userFollowed
+        },
+        {
+          $pull: {
+            followers: {
+              follower: req.user._id
             },
             notifications: {
               senderId: req.user._id,
@@ -40,9 +80,9 @@ module.exports = {
       );
     };
 
-    followUser()
+    unFollowUser()
       .then(() => {
-        res.status(HttpStatus.OK).json({ message: 'Following user now' });
+        res.status(HttpStatus.OK).json({ message: 'un-Following user now' });
       })
       .catch(err => {
         res
