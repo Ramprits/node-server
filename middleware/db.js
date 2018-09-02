@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'mongodb://localhost:27017/Adventure',
+  url: 'mongodb://localhost:27017/blog',
   proUrl:
     'mongodb://ramprit:ramprit123456@ds227332.mlab.com:27332/rampritsahaniblog',
   jwtTken: '$2b$10$4eYrC9tfsnxnhc0gn5jOa7TqBFa9n4c5CpaqR7te1H1ye2'
