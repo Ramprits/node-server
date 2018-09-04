@@ -31,7 +31,8 @@ const authUserSchema = mongoose.Schema({
       read: { type: Date, default: Date.now() },
       date: { type: String, default: '' }
     }
-  ]
+  ],
+  roles: { type: String, default: 'V' }
 });
 
 module.exports = mongoose.model('User', authUserSchema);
