@@ -22,7 +22,8 @@ module.exports = {
       await User.update(
         {
           _id: req.body.userFollowed,
-          'following.follower': { $ne: req.user._id }
+          'following.follower': { $ne: req.user._id },
+          'notifications.senderId': { $ne: req.user._id }
         },
         {
           $push: {
@@ -74,6 +75,12 @@ module.exports = {
           $pull: {
             followers: {
               follower: req.user._id
+            },
+            notifications: {
+              senderId: req.user._id,
+              message: `${req.user.username} is now following you.`,
+              created: new Date(),
+              viewProfile: false
             }
           }
         }
@@ -89,5 +96,8 @@ module.exports = {
           .status(HttpStatus.INTERNAL_SERVER_ERROR)
           .json({ message: 'Error occured' });
       });
+  },
+  MarkNotification(req, res) {
+    console.log(req.body);
   }
 };
