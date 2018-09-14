@@ -98,6 +98,9 @@ module.exports = {
       });
   },
   MarkNotification(req, res) {
-    console.log(req.body);
+    console.log(res.body.deleteVal);
+    // if (!res.body.DeleteData) {
+    //   console.log(req.body);
+    // }
   }
 };
